@@ -11,8 +11,8 @@ return {
                 { fail_encrypt_message = { type = "string" } },
                 { response_enabled = { type = "boolean", default = true } },
                 { request_enabled = { type = "boolean", default = true } },
-                { secret = { type = "string",default = "rc4" } },
-                { algorithm = { type = "string" } }
+                { secret = { type = "string"} },
+                { algorithm = { type = "string", default = "rc4"} }
             }
         }
         }
