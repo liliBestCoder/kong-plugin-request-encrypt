@@ -2,8 +2,6 @@ local access = require "kong.plugins.request-encrypt.access"
 local rc4_encrypt = require "kong.plugins.request-encrypt.encrypt"
 local rsa_encrypt = require "kong.plugins.request-encrypt.rsa"
 local kong = kong
-local ngx_INFO = ngx.INFO
-local ngx_log = ngx.log
 
 local RequestEncryptHandler = {
     VERSION  = "1.0.0",
@@ -38,10 +36,8 @@ function RequestEncryptHandler:body_filter(conf)
             and conf.response_enabled and kong.request.get_method() ~= "OPTIONS" then
         local body = kong.response.get_raw_body()
         if body then
-            ngx_log(ngx_INFO, "encrypt,","---1", body, #body)
             local ok, encrypt_body = encrypt(conf.secret, body, conf.algorithm)
             if ok and encrypt_body then
-                ngx_log(ngx_INFO, "encrypt done,", conf.algorithm, "---", conf.secret, "---", encrypt_body)
                 kong.response.set_raw_body(encrypt_body)
             else
                 kong.response.exit(200, { code = conf.fail_encrypt_status, massage = conf.fail_encrypt_message })
