@@ -4,8 +4,6 @@ local kong = kong
 local find = string.find
 local lower = string.lower
 local sub = string.sub
-local ngx_INFO = ngx.INFO
-local ngx_log = ngx.log
 
 local _M = {}
 
