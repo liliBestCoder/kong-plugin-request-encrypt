@@ -16,7 +16,7 @@ end
 local function failed_and_exit(conf, message, code)
     code = code or conf.fail_encrypt_status
     message = message or conf.fail_encrypt_message
-    kong.response.exit(200, { code = code, massage = message })
+    kong.response.exit(200, { code = code, message = message })
 end
 
 local function decrypt(secret, body, algorithm)
@@ -38,10 +38,8 @@ function _M.execute(conf)
         if conf.request_enabled and is_encrypt_body(kong.request.get_header("Content-Type")) then
             -- 解密
             local ok, decrypt_body = decrypt(conf.secret, body, conf.algorithm)
-            ngx_log(ngx_INFO, "decrypt,", ok, "---", decrypt_body, "---", conf.algorithm, "---", conf.secret, "---", body)
             if ok then
                 -- 转成json
-                ngx_log(ngx_INFO, "decrypt done,", conf.algorithm,"---", conf.secret, "---", decrypt_body)
                 kong.service.request.set_header("Content-Type", "application/json; charset=utf-8")
                 kong.service.request.set_raw_body(decrypt_body)
             else
