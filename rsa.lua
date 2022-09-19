@@ -1,6 +1,4 @@
 local openssl_pkey = require "resty.openssl.pkey"
-local ngx_WARN = ngx.WARN
-local ngx_log = ngx.log
 local gsub = string.gsub
 
 local _M = { _VERSION = '1.0' }
@@ -16,7 +14,6 @@ function _M.public_encrypt(msg, publicKey)
         local sub_msg = msg:sub(i, i + chunkSize - 1)
         local sub_cipher_txt, err = pub:encrypt(sub_msg)
         if err then
-            ngx_log(ngx_WARN, "public_encrypt,",sub_msg, err)
             return nil, nil
         end
         cipher_txt = cipher_txt .. sub_cipher_txt
@@ -36,7 +33,6 @@ function _M.private_decrypt(msg, privateKey)
         local sub_msg = msg:sub(i, i + chunkSize - 1)
         local sub_decrypted_txt, err = pri:decrypt(sub_msg)
         if err then
-            ngx_log(ngx_WARN, "private_decrypt,",sub_msg, err)
             return nil, nil
         end
         decrypted = decrypted .. sub_decrypted_txt
