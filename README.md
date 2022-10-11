@@ -6,7 +6,7 @@ You can use kong http api to config it to integrates yourself service encryption
 
 By the way, so far, it only support RC4 symmetric encryption and RSA asymmetric encryption
 
-#### Configuration
+#### configuration
 
 |name|type|required|default|desc|
 |---|---|---|---|---|
